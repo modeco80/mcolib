@@ -51,7 +51,7 @@ mcoNoUnitDeclareTest(FileStreamBasicWrite, "FileStream handles writes gracefully
 
 	// Excercise the stream
 	auto nWritten = stream.write(reinterpret_cast<const std::uint8_t*>(&writeMessage[0]), writeMessageLength);
-	mcoNoUnitAssert(nWritten == writeMessageLength);
+	mcoNoUnitAssertEq(nWritten, writeMessageLength);
 }
 
 mcoNoUnitDeclareTest(FileStreamBasicRead, "FileStream handles reads gracefully") {
@@ -64,7 +64,7 @@ mcoNoUnitDeclareTest(FileStreamBasicRead, "FileStream handles reads gracefully")
 	// of what we initially wrote. Additionally, it should actually match.
 	char buf[128] {};
 	auto nWritten = stream.read(&buf[0], sizeof(buf));
-	mcoNoUnitAssert(nWritten == writeMessageLength);
+	mcoNoUnitAssertEq(nWritten, writeMessageLength);
 	mcoNoUnitAssert(!memcmp(&buf[0], &writeMessage[0], writeMessageLength));
 }
 
@@ -74,7 +74,7 @@ mcoNoUnitDeclareTest(FileStreamMoveTest, "FileStream handles C++ movement correc
 		constexpr char msg[] = "Moving a stream works without closing the file abruptly\n";
 		constexpr auto msgLen = sizeof(msg) - 1;
 		auto nWritten = movedStream.write(reinterpret_cast<const std::uint8_t*>(&msg[0]), msgLen);
-		mcoNoUnitAssert(nWritten == msgLen);
+		mcoNoUnitAssertEq(nWritten, msgLen);
 	};
 
 	auto filename = testGlobals.makeTestFilename("move_test.txt");
@@ -85,7 +85,7 @@ mcoNoUnitDeclareTest(FileStreamMoveTest, "FileStream handles C++ movement correc
 	constexpr char msg[] = "test\n";
 	constexpr auto msgLen = sizeof(msg) - 1;
 	auto nWritten = stream.write(reinterpret_cast<const std::uint8_t*>(&msg[0]), msgLen);
-	mcoNoUnitAssert(nWritten == msgLen);
+	mcoNoUnitAssertEq(nWritten, msgLen);
 
 	// Now move the stream. The moved function should correctly
 	// own the stream and thus should close the file when it returns.

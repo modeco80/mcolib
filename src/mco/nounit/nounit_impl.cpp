@@ -1,15 +1,30 @@
-#include <mco/nounit.hpp>
-
 #include <cstdio>
 #include <cstdlib>
+#include <exception>
+#include <format>
+#include <mco/nounit.hpp>
+#include <string>
 
 namespace mco::nounit {
 	TestState Test::getState() const {
 		return mState;
 	}
-} // namespace nounit
+} // namespace mco::nounit
 
 namespace mco::nounit::impl {
+
+	class TestFailure : public std::exception {
+		std::string message;
+
+	   public:
+		TestFailure(const char* expression, const std::source_location& loc) {
+			message = std::format("Test FAILURE @ {}:{}: {}", loc.file_name(), loc.line(), expression);
+		}
+
+		const char* what() const noexcept override {
+			return message.c_str();
+		}
+	};
 
 	const char* testStateString(TestState state) {
 		switch(state) {
@@ -25,13 +40,23 @@ namespace mco::nounit::impl {
 		}
 	}
 
+	std::string formatAssertNeqFailure(ExpandableExpression& resultExpression, ExpandableExpression& expectedExpression) {
+		return std::format("{} (expansion: {}) equals {} (expansion: {})", resultExpression.getUnexpandedExpression(), resultExpression.getExpandedString(), expectedExpression.getUnexpandedExpression(), expectedExpression.getExpandedString());
+	}
+
+	std::string formatAssertEqFailure(ExpandableExpression& resultExpression, ExpandableExpression& expectedExpression) {
+		return std::format("{} (expansion: {}) does not equal {} (expansion: {})", resultExpression.getUnexpandedExpression(), resultExpression.getExpandedString(), expectedExpression.getUnexpandedExpression(), expectedExpression.getExpandedString());
+	}
+
 	void runTestImpl(Test* pTest) {
 		if(!pTest)
 			return;
 
-		printf("======== nounit: executing test \"%s\"\n", pTest->description());
+		printf("= Executing test \"%s\"\n", pTest->description());
 		try {
 			pTest->execute();
+		} catch(TestFailure& fail) {
+			printf("= %s\n", fail.what());
 		} catch(...) {
 			///
 		}
@@ -40,14 +65,12 @@ namespace mco::nounit::impl {
 		if(pTest->getState() != TestState::Failed)
 			pTest->mState = TestState::Passed;
 
-		printf("======== nounit: test \"%s\" %s.\n", pTest->description(), testStateString(pTest->getState()));
+		printf("= Test \"%s\" %s.\n", pTest->description(), testStateString(pTest->getState()));
 	}
 
 	void testFailureImpl(Test* pTest, const char* expression, const std::source_location& loc) {
 		pTest->mState = TestState::Failed;
-		printf("test failure\n");
-		printf("reason: %s\n", expression);
-		printf("source info: %s:%d\n", loc.file_name(), loc.line());
+		throw TestFailure(expression, loc);
 	}
 
 	Test* testListHead { nullptr };
@@ -63,7 +86,7 @@ namespace mco::nounit::impl {
 			Test* pIter = testListHead;
 			while(pIter->mpNext != nullptr) {
 				pIter = pIter->mpNext;
-            }
+			}
 
 			pIter->mpNext = pTest;
 		}
@@ -85,4 +108,4 @@ namespace mco::nounit::impl {
 		return exitCode;
 	}
 
-} // namespace nounit::impl
+} // namespace mco::nounit::impl
