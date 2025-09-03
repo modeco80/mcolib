@@ -1,6 +1,6 @@
 
 #include <mco/nounit.hpp>
-#include <mco/streaming_iterator.hpp>
+#include <mco/lazy_iterators.hpp>
 
 mcoNoUnitDeclareTest(iotaTest, "basic iota() tests") {
     auto iter = mco::iota(1, 3);

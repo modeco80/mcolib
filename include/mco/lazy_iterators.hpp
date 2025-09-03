@@ -1,44 +1,8 @@
 #pragma once
 
-#include <concepts>
-#include <iterator>
-#include <optional>
-#include <vector>
+#include <mco/lazy_iterator.hpp>
 
 namespace mco {
-
-	/// Concept of lazy iterators.
-	/// These act pretty much analoguously to Rust iterators.
-	/// however, C++ doesn't have sugar like Rust does to use them.
-	/// This makes them a bit uglier, but whatever.
-	template <class T>
-	concept LazyIteratorLike = requires(T iter) {
-		typename T::Type;
-		// .next() must return optional<Type>. std::nullopt marks the end of the
-		// iterator.
-		{ iter.next() } -> std::convertible_to<std::optional<typename T::Type>>;
-	};
-
-	/// Functions like C++ range for, or Rust "for r in ..."
-	template <class Func>
-	auto forEach(LazyIteratorLike auto& iter, Func&& func) {
-		while(true) {
-			auto item = iter.next();
-			if(!item.has_value())
-				break;
-			func(item.value());
-		}
-	}
-
-	/// Functions like Rust `(...).collect::<Vec<_>>()`.
-	template <LazyIteratorLike Iter>
-	auto collect(Iter& iter) -> std::vector<typename Iter::Type> {
-		std::vector<typename Iter::Type> items;
-		forEach(iter, [&items](auto& item) {
-			items.push_back(item);
-		});
-		return items;
-	}
 
 	/// Returns an iterator which lazily evaluates to a integer sequence, jumping by
 	/// [increment] each time.
@@ -106,4 +70,5 @@ namespace mco {
 		static_assert(LazyIteratorLike<MapImpl>, "MapIteratorImpl needs to be updated");
 		return MapImpl(iter, mapFunc);
 	}
+
 } // namespace mco
