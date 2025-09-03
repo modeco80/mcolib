@@ -29,7 +29,7 @@ namespace mco {
 
 		u64 getSize() override;
 
-		//bool hasEnded() override;
+		bool hasEnded() override;
 
 		// WritableStream
 

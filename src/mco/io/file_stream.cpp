@@ -61,4 +61,8 @@ namespace mco {
 	u64 FileStream::getSize() {
 		return impl.getType<impl::FileStreamImpl>().getSize();
 	}
+
+	bool FileStream::hasEnded() {
+		return impl.getType<impl::FileStreamImpl>().hasEnded();
+	}
 } // namespace mco

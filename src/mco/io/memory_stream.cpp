@@ -85,6 +85,10 @@ namespace mco {
 		return buffer.size();
 	}
 
+	bool MemoryStream::hasEnded() {
+		return seekPointer == static_cast<i64>(buffer.size());
+	}
+
     void MemoryStream::clear() {
         // Reset everything.
         buffer.clear();

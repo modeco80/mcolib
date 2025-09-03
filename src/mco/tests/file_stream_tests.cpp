@@ -66,6 +66,9 @@ mcoNoUnitDeclareTest(FileStreamBasicRead, "FileStream handles reads gracefully")
 	auto nWritten = stream.read(&buf[0], sizeof(buf));
 	mcoNoUnitAssertEq(nWritten, writeMessageLength);
 	mcoNoUnitAssert(!memcmp(&buf[0], &writeMessage[0], writeMessageLength));
+
+	// Also, make sure that the stream ended.
+	mcoNoUnitAssert(stream.hasEnded());
 }
 
 mcoNoUnitDeclareTest(FileStreamMoveTest, "FileStream handles C++ movement correctly") {

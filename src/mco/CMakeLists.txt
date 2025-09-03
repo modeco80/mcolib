@@ -3,6 +3,7 @@ add_library(mcolib
     # anti-iostreams bikeshedding
     io/stream.cpp
     io/stream_utils.cpp
+    io/writable_stream.cpp
     io/file_stream.cpp
     io/memory_stream.cpp
 )

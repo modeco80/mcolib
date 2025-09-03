@@ -24,6 +24,7 @@ mcoNoUnitDeclareTest(MemoryStreamBasicWrite, "mco::MemoryStream basic write test
 	n = stream.read(&buf[0], sizeof(buf));
 	mcoNoUnitAssertEq(n, strLength);
 	mcoNoUnitAssert(!memcmp(&buf[0], str, strLength));
+	mcoNoUnitAssert(stream.hasEnded());
 }
 
 mcoNoUnitMain()

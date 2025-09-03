@@ -46,6 +46,11 @@ namespace mco::impl {
 				// errno is mappable to system_category
 				throw std::system_error { errno, std::generic_category() };
 			}
+
+            // Cache size
+            seek(0, Stream::End);
+            size = tell();
+            seek(0, Stream::Begin);
 		}
 
         u64 read(void* buffer, u64 length) {
@@ -95,6 +100,10 @@ namespace mco::impl {
 
         u64 getSize() {
             return size;
+        }
+        
+        bool hasEnded() {
+            return tell() == static_cast<i64>(size);
         }
 
 	   private:
