@@ -57,10 +57,9 @@ namespace mco {
 						}
 					} else {
 						// The iterator ended.
-						break;
+						return std::nullopt;
 					}
 				}
-				return std::nullopt;
 			}
 
 		   private:
