@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <memory>
 
 // Typedefs. I like them this way
 using u8 = std::uint8_t;
@@ -12,6 +13,12 @@ using u64 = std::uint64_t;
 using i64 = std::int64_t;
 using usize = std::size_t;
 using isize = std::ptrdiff_t;
+
+template<class T>
+using Ref = std::shared_ptr<T>;
+
+template<class T>
+using Unique = std::unique_ptr<T>;
 
 /// A cutesy macro which makes static_assert struct size tests
 /// a bit less annoying to write. The error message generated is

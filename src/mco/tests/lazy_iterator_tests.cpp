@@ -6,7 +6,6 @@ mcoNoUnitDeclareTest(iotaTest, "basic iota() tests") {
     auto iter = mco::iota(1, 3);
     // test by manually iterating through the sequence that
     // iotaIterator works as expected
-    mcoNoUnitAssertEq(iter.next().value(), 0);
     mcoNoUnitAssertEq(iter.next().value(), 1);
     mcoNoUnitAssertEq(iter.next().value(), 2);
     mcoNoUnitAssertEq(iter.next().value(), 3);

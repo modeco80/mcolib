@@ -6,7 +6,7 @@ if(BUILD_TESTING)
 
     target_link_libraries(file_stream_tests PRIVATE
         mco::nounit
-        mco::lib
+        mco::io
     )
 
     mco_target(file_stream_tests)
@@ -17,7 +17,7 @@ if(BUILD_TESTING)
 
     target_link_libraries(memory_stream_tests PRIVATE
         mco::nounit
-        mco::lib
+        mco::io
     )
 
     mco_target(memory_stream_tests)
@@ -28,7 +28,7 @@ if(BUILD_TESTING)
 
     target_link_libraries(lazy_iterator_tests PRIVATE
         mco::nounit
-        mco::lib
+        mco::io
     )
 
     mco_target(lazy_iterator_tests)

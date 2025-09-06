@@ -1,16 +1,17 @@
-add_library(mcolib
+add_library(mco_base
     utils.cpp
-    # anti-iostreams bikeshedding
-    io/stream.cpp
-    io/stream_utils.cpp
-    io/writable_stream.cpp
-    io/file_stream.cpp
-    io/memory_stream.cpp
+  
 )
 
-mco_target(mcolib)
+mco_target(mco_base)
 
-add_library(mco::lib ALIAS mcolib)
+add_library(mco::base ALIAS mco_base)
+
+# io - io library
+add_subdirectory(io)
+
+# objective - object patterns
+add_subdirectory(objective)
 
 add_subdirectory(nounit)
 add_subdirectory(tests)

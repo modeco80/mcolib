@@ -2,6 +2,7 @@
 
 #include <concepts>
 #include <optional>
+#include <stdexcept>
 #include <vector>
 
 namespace mco {
@@ -13,7 +14,7 @@ namespace mco {
 	template <class T>
 	concept LazyIteratorLike = requires(T iter) {
 		typename T::Type;
-		// .next() must return optional<Type>. 
+		// .next() must return optional<Type>.
 		// std::nullopt marks the end of the iteration.
 		{ iter.next() } -> std::convertible_to<std::optional<typename T::Type>>;
 
@@ -43,5 +44,14 @@ namespace mco {
 		return items;
 	}
 
-	
+	/// Obtains the first value from an iterator.
+	template <LazyIteratorLike Iter>
+	auto first(Iter& iter) -> Iter::Type {
+		if(auto n = iter.next(); n.has_value()) {
+			return *n;
+		} else {
+			throw std::runtime_error("first() called on iterator which has ended already");
+		}
+	}
+
 } // namespace mco
