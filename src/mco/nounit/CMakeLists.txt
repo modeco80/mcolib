@@ -1,6 +1,9 @@
 
 add_library(mco_nounit
-    nounit_impl.cpp
+    assertion_format.cpp
+    test.cpp
+    test_runner.cpp
+    main_impl.cpp
 )
 
 mco_target(mco_nounit)

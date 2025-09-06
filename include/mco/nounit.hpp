@@ -40,7 +40,6 @@ namespace mco::nounit {
 		int mainImpl();
 	} // namespace impl
 
-	// public for exposition by impl only.
 	enum class TestState { NeverRun,
 						   Passed,
 						   Failed };
