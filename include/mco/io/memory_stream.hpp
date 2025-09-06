@@ -6,7 +6,7 @@
 namespace mco {
 
 	/// A memory stream.
-	class MemoryStream : WritableStream {
+	class MemoryStream : public WritableStream {
 		// TODO: Support owned or leased memory.
 		// In the case we are leasing memory, trying to write beyond
 		// the end of the memory provided should always fail.
