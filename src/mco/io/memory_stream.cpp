@@ -33,7 +33,7 @@ namespace mco {
 
 		// Copy data into the user's buffer and adjust the seek pointer.
 		// The length is clamped beforehand, so this should be fine.
-		memcpy(buffer, &this->buffer[0], length);
+		memcpy(buffer, &this->buffer[seekPointer], length);
 		seekPointer += length;
 
 		return length;
