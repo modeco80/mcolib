@@ -8,6 +8,11 @@ namespace mco {
 		buffer.resize(initialSize);
 	}
 
+	MemoryStream::MemoryStream(const u8* sourceBuffer, usize sourceBufferSize) {
+		buffer.resize(sourceBufferSize);
+		memcpy(&buffer[0], sourceBuffer, sourceBufferSize);
+	}
+
     MemoryStream::~MemoryStream() = default;
 
 	u64 MemoryStream::read(void* buffer, u64 length) {

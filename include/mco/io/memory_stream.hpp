@@ -5,17 +5,26 @@
 
 namespace mco {
 
-    /// A memory stream.
+	/// A memory stream.
 	class MemoryStream : WritableStream {
-        // TODO: Support owned or leased memory.
+		// TODO: Support owned or leased memory.
 		// In the case we are leasing memory, trying to write beyond
 		// the end of the memory provided should always fail.
-		std::vector<u8> buffer{};
-		i64 seekPointer{0};
+		std::vector<u8> buffer {};
+		i64 seekPointer { 0 };
+
 	   public:
-        MemoryStream();
-        MemoryStream(u64 initialSize);
-        ~MemoryStream();
+		/// Default constructor.
+		MemoryStream();
+
+		/// Constructor for pre-allocating an inital size.
+		explicit MemoryStream(u64 initialSize);
+
+		/// Constructor. Writes data from a buffer into this stream.
+		MemoryStream(const u8* sourceBuffer, usize sourceBufferSize);
+
+		~MemoryStream();
+
 		// Stream
 
 		u64 read(void* buffer, u64 length) override;
@@ -35,14 +44,14 @@ namespace mco {
 
 		u64 write(const void* buffer, u64 length) override;
 
-        // General methods
+		// General methods
 
-        /// Clear this MemoryStream. 
-        ///
-        /// The seek pointer will be set to 0,
-        /// and the underlying memory that was backing the stream
-        /// will be freed.
-        void clear();
+		/// Clear this MemoryStream.
+		///
+		/// The seek pointer will be set to 0,
+		/// and the underlying memory that was backing the stream
+		/// will be freed.
+		void clear();
 	};
 
 } // namespace mco

@@ -27,4 +27,15 @@ mcoNoUnitDeclareTest(MemoryStreamBasicWrite, "mco::MemoryStream basic write test
 	mcoNoUnitAssert(stream.hasEnded());
 }
 
+mcoNoUnitDeclareTest(MemoryStreamInitTest, "mco::MemoryStream prefill construction works") {
+	const u8 testData[] = { 0x12, 0x34, 0x56, 0x78 };
+
+	mco::MemoryStream stream(&testData[0], sizeof(testData));
+	u8 buf[sizeof(testData)];
+
+	mcoNoUnitAssertEq(stream.read(&buf[0], sizeof(testData)), sizeof(testData));
+	mcoNoUnitAssert(!memcmp(&buf[0], &testData[0], sizeof(testData)));
+	mcoNoUnitAssert(stream.hasEnded());
+}
+
 mcoNoUnitMain()
