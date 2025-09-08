@@ -6,5 +6,6 @@ namespace mco::nounit {
 
 namespace mco::nounit::impl {
 	/// Runs a single unit test.
-	void runTest(Test* pTest);
+	/// Returns 1 if the test failed, 0 if it did not.
+	int runTest(Test* pTest);
 } // namespace mco::nounit::impl

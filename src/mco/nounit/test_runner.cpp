@@ -20,9 +20,9 @@ namespace mco::nounit::impl {
 		}
 	}
 
-	void runTest(Test* pTest) {
+	int runTest(Test* pTest) {
 		if(!pTest)
-			return;
+			return 1;
 
 		printf("= Executing test \"%s\"\n", pTest->description());
 
@@ -47,6 +47,14 @@ namespace mco::nounit::impl {
 			pTest->mState = TestState::Passed;
 
 		printf("= Test \"%s\" %s.\n", pTest->description(), testStateString(pTest->getState()));
+
+		if(pTest->mAllowedToFail) {
+			return 0;
+		} else {
+			if(pTest->mState == TestState::Failed)
+				return 1;
+			return 0;
+		}
 	}
 
 } // namespace mco::nounit::impl

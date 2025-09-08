@@ -1,4 +1,5 @@
 #include <mco/nounit.hpp>
+
 #include "test_runner.hpp"
 
 namespace mco::nounit::impl {
@@ -27,9 +28,8 @@ namespace mco::nounit::impl {
 
 		Test* pTest = testListHead;
 		while(pTest != nullptr) {
-			runTest(pTest);
-			// If any test fails the exit code is altered
-			if(pTest->getState() == TestState::Failed)
+			// If any test which is not allowed to fail fails, the exit code is altered.
+			if(runTest(pTest) == 1)
 				exitCode = 1;
 
 			pTest = pTest->mpNext;

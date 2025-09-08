@@ -53,6 +53,7 @@ namespace mco::nounit {
 
 		TestState mState { TestState::NeverRun };
 		Test* mpNext { nullptr };
+		bool mAllowedToFail { false };
 
 		TestState getState() const;
 
@@ -75,6 +76,9 @@ namespace mco::nounit {
 	};                                                      \
 	static name nounit__test__##name {};                    \
 	void name::execute()
+
+/// Allows failure of the unit test.
+#define mcoNoUnitAllowFailure() this->mAllowedToFail = true;
 
 /// Use inside of a test to assert that a expression should not throw.
 #define mcoNoUnitShouldNotThrow(expr)                                               \
