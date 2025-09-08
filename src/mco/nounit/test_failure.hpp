@@ -2,7 +2,6 @@
 #include <exception>
 #include <source_location>
 #include <string>
-#include <format>
 
 namespace mco::nounit::impl {
 
@@ -10,9 +9,7 @@ namespace mco::nounit::impl {
 		std::string message;
 
 	   public:
-		TestFailure(const char* expression, const std::source_location& loc) {
-			message = std::format("Test FAILURE @ {}:{}: {}", loc.file_name(), loc.line(), expression);
-		}
+		TestFailure(const char* expression, const std::source_location& loc);
 
 		const char* what() const noexcept override {
 			return message.c_str();

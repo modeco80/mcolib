@@ -2,6 +2,7 @@
 add_library(mco_nounit
     assertion_format.cpp
     test.cpp
+    test_failure.cpp
     test_runner.cpp
     main_impl.cpp
 )
