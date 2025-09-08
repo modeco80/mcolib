@@ -6,9 +6,11 @@
 
 namespace mco::nounit::impl {
 
-	const char* testStateString(TestState state) {
-		switch(state) {
+	const char* testStateString(Test* pTest) {
+		switch(pTest->getState()) {
 			case TestState::Failed:
+				if(pTest->mAllowedToFail)
+					return "failed (suppressed)";
 				return "failed";
 			case TestState::Passed:
 				return "passed";
@@ -46,7 +48,7 @@ namespace mco::nounit::impl {
 		if(pTest->getState() != TestState::Failed)
 			pTest->mState = TestState::Passed;
 
-		printf("= Test \"%s\" %s.\n", pTest->description(), testStateString(pTest->getState()));
+		printf("= Test \"%s\" %s.\n", pTest->description(), testStateString(pTest));
 
 		if(pTest->mAllowedToFail) {
 			return 0;
