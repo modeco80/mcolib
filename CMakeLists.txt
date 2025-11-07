@@ -20,6 +20,8 @@ include(Policies)
 include(ProjectFuncs)
 include(CompilerFlags)
 
+# dependencies
+find_package(ZLIB REQUIRED)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)

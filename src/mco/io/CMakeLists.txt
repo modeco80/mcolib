@@ -7,11 +7,15 @@ add_library(mco_io
     # concrete stream implementations
     file_stream.cpp
     memory_stream.cpp
+
+    # adapter streams
+    gzip_in_stream.cpp
 )
 
 mco_target(mco_io)
 target_link_libraries(mco_io PUBLIC
     mco::base
+    ZLIB::ZLIB
 )
 
 add_library(mco::io ALIAS mco_io)
