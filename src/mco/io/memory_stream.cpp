@@ -74,6 +74,9 @@ namespace mco {
 		// Unlike file streams, seeking outside of the bounds
 		// is *not* allowed. This is because that would be an
 		// out of bounds memory access.
+		//
+		// FIXME: For owned memory this would actually be okay, and we could just resize
+		// to the new extents.
 		if(newPos < 0 || newPos > static_cast<i64>(buffer.size()))
 			return -1;
 		seekPointer = newPos;
