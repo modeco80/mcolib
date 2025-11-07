@@ -1,5 +1,4 @@
 #include <mco/objective/service_bucket.hpp>
-#include <memory>
 
 namespace mco::objective {
 
