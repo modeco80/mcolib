@@ -2,7 +2,7 @@
 
 #include <typeindex>
 
-namespace mco {
+namespace mco::objective {
 
     /// Base class for services.
 	class Service {
