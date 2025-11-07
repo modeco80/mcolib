@@ -7,7 +7,7 @@ namespace mco::objective {
     // Some other decisions have been made based on this.
 
 	Ref<Service> ServiceBucket::getServiceBase(std::type_index idx) {
-		// Try and find
+		// Try and find the instance of the service. Fail if it's not found.
 		if(auto it = registeredServices.find(idx); it != registeredServices.end()) {
 			return it->second;
 		}

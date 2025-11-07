@@ -81,6 +81,9 @@ namespace mco {
 
 		/// Put a single byte.
 		void put(u8 c);
+
+		/// Writes a line, including the line-feed/new line character(s).
+		void writeLine(const std::string_view line);
 	};
 
 } // namespace mco

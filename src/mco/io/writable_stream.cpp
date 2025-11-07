@@ -17,4 +17,12 @@ namespace mco {
 	void WritableStream::put(u8 c) {
 		write(&c, sizeof(c));
 	}
+
+	void WritableStream::writeLine(const std::string_view line) {
+		// just give up if we couldn't write the line contents in the first place
+		if(auto n = write(line.data(), line.length()); n != line.length())
+			return;
+		// put the newline in
+		put('\n');
+	}
 } // namespace mco
