@@ -22,7 +22,10 @@ namespace mco {
 		// just give up if we couldn't write the line contents in the first place
 		if(auto n = write(line.data(), line.length()); n != line.length())
 			return;
-		// put the newline in
+#ifdef _WIN32
+		// urgh. microsaift.
+		put('\r');
+#endif
 		put('\n');
 	}
 } // namespace mco

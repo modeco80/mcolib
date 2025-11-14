@@ -64,4 +64,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -O0 -g3")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS} -O3 -g3")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG -O3 -s")
 
-set(CMAKE_EXE_LINKER_FLAGS "${MCO_CORE_LINKER_ARGS} -Wl,-z,noexecstack,-z,relro,-z,now,--gc-sections")
+# these ld flags bungle up mingw slightly, so don't set them
+if(NOT WIN32)
+	set(CMAKE_EXE_LINKER_FLAGS "${MCO_CORE_LINKER_ARGS} -Wl,-z,noexecstack,-z,relro,-z,now,--gc-sections")
+endif()

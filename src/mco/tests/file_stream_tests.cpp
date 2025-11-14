@@ -8,6 +8,11 @@
 	#include <unistd.h>
 #endif
 
+#ifdef _WIN32
+	#define _WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+#endif
+
 // Just here to make accessing them less awful and clearer
 class FileStreamTestGlobals {
 	/// The test directory.
@@ -27,6 +32,10 @@ class FileStreamTestGlobals {
 #ifdef __unix__
 		testDirectory = "/tmp";
 #endif
+#ifdef _WIN32
+		// Just for now.
+		testDirectory = ".\\";
+#endif
 	}
 
 	~FileStreamTestGlobals() {
@@ -34,6 +43,9 @@ class FileStreamTestGlobals {
 		for(auto& path : cleanupPaths) {
 #ifdef __unix__
 			unlink(path.c_str());
+#endif
+#ifdef _WIN32
+			DeleteFileA(path.c_str());
 #endif
 		}
 	}

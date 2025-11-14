@@ -13,7 +13,7 @@
 namespace mco::impl {
 
 	// helper to convert mco generic modes to posix mode
-	constexpr int convertToPosixMode(int mode) {
+	constexpr int convertToCreateFile(int mode) {
 		int posixMode = O_CLOEXEC;
 		if(mode & mco::FileStream::Read)
 			posixMode |= O_RDONLY;
@@ -36,7 +36,7 @@ namespace mco::impl {
         }
 
 		void open(const char* path, int mcoMode) {
-            int mode = convertToPosixMode(mcoMode);
+            int mode = convertToCreateFile(mcoMode);
 			if(mode & O_CREAT)
 				fd = ::open(path, mode | O_CLOEXEC, 0666);
 			else

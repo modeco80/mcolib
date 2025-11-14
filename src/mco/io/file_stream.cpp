@@ -2,7 +2,7 @@
 
 // Win32 implementation
 #ifdef _WIN32
-	#error Currently no win32 version implemented sorry
+	#include "file_stream_impl.win32.cpp"
 #endif
 
 // POSIX implementation

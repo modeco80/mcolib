@@ -20,8 +20,12 @@ include(Policies)
 include(ProjectFuncs)
 include(CompilerFlags)
 
-# dependencies
-find_package(ZLIB REQUIRED)
+option(MCO_WITH_ZLIB "Enable zlib features" OFF)
+
+if(MCO_WITH_ZLIB)
+    # dependencies
+    find_package(ZLIB)
+endif()
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
