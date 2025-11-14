@@ -13,12 +13,24 @@
 namespace mco::impl {
 
 	// helper to convert mco generic modes to posix mode
-	constexpr int convertToCreateFile(int mode) {
+	inline static int convertToOpenMode(int mode) {
 		int posixMode = O_CLOEXEC;
+
 		if(mode & mco::FileStream::Read)
 			posixMode |= O_RDONLY;
-		if(mode & mco::FileStream::Write)
-			posixMode |= O_WRONLY;
+
+		if(mode & mco::FileStream::Write) {
+            if((posixMode & O_RDONLY) == O_RDONLY) {
+                // We have to set O_RDWR for a RW file, rather than
+                // O_WRONLY. Thus, this logic is a bit.. interesting?
+                posixMode = O_CLOEXEC | O_RDWR;
+            } else {
+                // If the user truthfully only wants a write-only file,
+                // then give them what they desire.
+                posixMode |= O_WRONLY;
+            }
+        }
+
 		if(mode & mco::FileStream::Create)
 			posixMode |= O_CREAT;
 		return posixMode;
@@ -36,11 +48,10 @@ namespace mco::impl {
         }
 
 		void open(const char* path, int mcoMode) {
-            int mode = convertToCreateFile(mcoMode);
-			if(mode & O_CREAT)
-				fd = ::open(path, mode | O_CLOEXEC, 0666);
+			if(auto mode = convertToOpenMode(mcoMode); mode & O_CREAT)
+				fd = ::open(path, mode, 0666);
 			else
-				fd = ::open(path, mode | O_CLOEXEC);
+				fd = ::open(path, mode);
 
 			if(fd == -1) {
 				// errno is mappable to system_category
